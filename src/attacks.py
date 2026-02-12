@@ -96,7 +96,6 @@ def pick_targets_for_attack(
         k = min(len(nodes), step_size)
         if k <= 0:
             return []
-        # Generator.choice returns ndarray; convert to plain python list.
         return rng.choice(nodes, size=k, replace=False).tolist()
 
     if attack_kind == "degree":
