@@ -6,8 +6,6 @@
 - энтропийные признаки (по степеням, весам, confidence и т.п.);
 - эвристику детекции «взрывного» распада (phase transition) по кривой LCC;
 - вспомогательные процедуры для геометрических/кривизностных расчётов.
-
-Модуль намеренно не зависит от Streamlit/UI и может использоваться отдельно.
 """
 
 from __future__ import annotations
@@ -102,6 +100,8 @@ def classify_phase_transition(
     Если скачок занимает достаточно большую долю амплитуды (по порогу, оценённому
     на нулевой модели), классифицируем распад как abrupt и возвращаем
     приблизительную «критическую точку» по x.
+
+    проблема: зависит от того, какой скаяок мы определяем как "достаточно большой". требует отладки
     """
     if df is None or df.empty or x_col not in df.columns or y_col not in df.columns:
         return {
@@ -460,7 +460,6 @@ def evolutionary_entropy_demetrius(G: nx.Graph, base: float = math.e) -> float:
     if not np.isfinite(lam) or lam <= 0:
         return float("nan")
 
-    # Ensure strictly positive vectors (PF theorem gives non-negative; we regularize).
     u = np.abs(u) + 1e-15
     v = np.abs(v) + 1e-15
 
@@ -471,9 +470,8 @@ def evolutionary_entropy_demetrius(G: nx.Graph, base: float = math.e) -> float:
     pi = pi / Z
 
     log_base = math.log(base)
-    # For row i: P_ij = a_ij * u_j / (lam * u_i). The normalization over j cancels lam*u_i:
+    # для сырых i: P_ij = a_ij * u_j / (lam * u_i).
     #   sum_j P_ij = (sum_j a_ij u_j) / (lam u_i)
-    # so normalized probabilities per row are:
     #   p_ij = (a_ij u_j) / sum_j(a_ij u_j)
     H_evo = 0.0
     indptr = A.indptr
