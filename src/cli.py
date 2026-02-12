@@ -21,7 +21,7 @@ def _load_table(path: Path) -> pd.DataFrame:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Run metrics offline for reproducible CLI experiments."""
+
     p = argparse.ArgumentParser(
         prog="kodiklab",
         description="Kodik Lab: offline runner (metrics / summary) for reproducible experiments.",
