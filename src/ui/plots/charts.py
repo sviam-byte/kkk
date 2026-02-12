@@ -30,19 +30,10 @@ def apply_plot_defaults(fig, height: int = 780, y_range=None):
 
 
 def forward_fill_heavy(df_hist: pd.DataFrame) -> pd.DataFrame:
-    """Fill heavy-step metrics forward after normalizing invalid placeholder values.
 
-    Some metrics are recalculated only on "heavy" computation steps. Between those
-    steps the history may contain placeholder values (e.g. zeros) that should be
-    treated as missing data and replaced with the last valid heavy-step value.
-    """
     df = df_hist.copy()
-    # NOTE: If smoother curves are preferable over step-like behavior, replace
-    # ``ffill()`` with ``interpolate(method="linear")`` below.
     cols_to_fix = ["l2_lcc", "mod", "H_tri", "eff_w"]
     for col in cols_to_fix:
         if col in df.columns:
-            # Convert placeholders and non-finite values to NaN so that ``ffill``
-            # can restore the most recent valid heavy-step value.
             df[col] = df[col].replace([0, 0.0, np.inf, -np.inf], np.nan).ffill()
     return df
