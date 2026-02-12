@@ -3,6 +3,7 @@
 Небольшая Streamlit-песочница для анализа графов (метрики, 3D, нулевые модели, атаки/устойчивость). 
 
 ## Как запустить
+<img width="1004" height="956" alt="image" src="https://github.com/user-attachments/assets/14b5d875-cc5d-4d65-9aca-07aa701eb9ea" />
 
 1) Установить зависимости:
 
