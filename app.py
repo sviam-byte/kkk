@@ -11,7 +11,7 @@ import pandas as pd
 import streamlit as st
 
 # 1) Config & Logging
-# TODO: move logger to separate module.
+#  TODO: вынести логгер в отдельный модуль.
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("kodik")
 
@@ -102,7 +102,6 @@ def save_experiment_to_state(name, gid, kind, params, df_hist):
         history=df_hist,
         entry_id=eid,
     )
-    # Store directly in session state to keep the workflow lightweight.
     if hasattr(ctx, "add_experiment"):
         ctx.add_experiment(exp)
     else:
@@ -112,7 +111,6 @@ def save_experiment_to_state(name, gid, kind, params, df_hist):
 
 @st.cache_data(show_spinner=False)
 def cached_load_edges(file_bytes: bytes, filename: str, fixed: bool) -> tuple[pd.DataFrame, dict | None]:
-    """Загрузить таблицу рёбер с кэшем (ускоряет переключение вкладок)."""
     df_any = load_edges(file_bytes, filename)
     if fixed:
         df_edges, meta = coerce_fixed_format(df_any)
