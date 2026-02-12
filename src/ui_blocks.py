@@ -33,7 +33,7 @@ def fmt(val, precision=4, is_percent=False):
     if is_percent:
         return f"{f * 100:.1f}%"
 
-    # Handle negative zero.
+    # не хотим отриц нулои
     if f == 0.0:
         f = 0.0
 
