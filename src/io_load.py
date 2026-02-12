@@ -10,7 +10,6 @@ from .preprocess import coerce_fixed_format
 
 
 def load_edges(path_or_bytes: str | Path | bytes, filename: str | None = None) -> pd.DataFrame:
-    """Load edges table from a file path or uploaded bytes."""
     if isinstance(path_or_bytes, (str, Path)):
         path = Path(path_or_bytes)
         if path.suffix.lower() in (".xlsx", ".xls"):
@@ -48,11 +47,6 @@ def load_uploaded_any(file_bytes: bytes, filename: str) -> pd.DataFrame:
 
 
 def clean_fixed_format(df_any: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
-    """Compatibility wrapper for the legacy fixed-format loader.
-
-    Delegates to :func:`src.preprocess.coerce_fixed_format` so that all weight
-    handling stays consistent across the codebase.
-    """
     df, meta0 = coerce_fixed_format(df_any)
     meta = {
         "SRC_COL": meta0["src_col"],
