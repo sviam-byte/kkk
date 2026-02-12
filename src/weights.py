@@ -9,11 +9,9 @@ import pandas as pd
 
 @dataclass(frozen=True)
 class WeightPolicy:
-    """Policy for converting raw edge weights into non-negative magnitudes.
-
-    The app uses distances as dist = 1 / weight and several random-walk style
-    processes that assume non-negative weights. Therefore, *downstream* code
-    expects weights to be finite and strictly positive.
+    """ необработанные весовые коэф  ребер в неотрицательные величины.
+    Приложение использует расстояния в виде dist = 1 / weight и несколько процессов в стиле случайного блуждания,
+    в которых предполагается, что весовые коэффициенты неотрицательны
     """
 
     mode: str = "drop_nonpositive"
@@ -21,15 +19,11 @@ class WeightPolicy:
     shift: float = 0.0
 
     def normalize_mode(self) -> str:
-        """Normalize the policy mode for comparisons."""
         return str(self.mode or "").strip().lower()
 
 
 def apply_weight_policy_to_series(w: pd.Series, policy: WeightPolicy) -> Tuple[pd.Series, pd.Series]:
-    """Return (new_weight, keep_mask).
 
-    keep_mask indicates which rows should be kept after the transformation.
-    """
     eps = float(policy.eps)
     shift = float(policy.shift)
     mode = policy.normalize_mode()
